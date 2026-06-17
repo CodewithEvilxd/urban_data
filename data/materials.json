@@ -1,0 +1,10 @@
+[
+  {"material": "Conventional Asphalt", "albedo": 0.08, "surface_temp_c": 62.3, "cooling_c": 0.0, "cost_inr_m2": 450, "durability_yrs": 8},
+  {"material": "Cool Pavement (Light)", "albedo": 0.45, "surface_temp_c": 44.7, "cooling_c": 9.8, "cost_inr_m2": 650, "durability_yrs": 10},
+  {"material": "Permeable Pavement", "albedo": 0.35, "surface_temp_c": 46.2, "cooling_c": 1.5, "cost_inr_m2": 720, "durability_yrs": 12},
+  {"material": "White Reflective Roof", "albedo": 0.78, "surface_temp_c": 38.6, "cooling_c": 12.4, "cost_inr_m2": 500, "durability_yrs": 15},
+  {"material": "Green Roof", "albedo": 0.65, "surface_temp_c": 35.1, "cooling_c": 7.1, "cost_inr_m2": 1200, "durability_yrs": 20},
+  {"material": "Urban Tree Canopy", "albedo": 0.25, "surface_temp_c": 36.8, "cooling_c": 5.4, "cost_inr_m2": 350, "durability_yrs": 25},
+  {"material": "High Albedo Paint", "albedo": 0.72, "surface_temp_c": 39.4, "cooling_c": 6.3, "cost_inr_m2": 280, "durability_yrs": 7},
+  {"material": "Water Body / Fountain", "albedo": 0.15, "surface_temp_c": 34.2, "cooling_c": 2.5, "cost_inr_m2": 1800, "durability_yrs": 30}
+]

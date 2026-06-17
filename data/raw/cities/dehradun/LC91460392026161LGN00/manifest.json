@@ -1,0 +1,22 @@
+{
+  "scene_id": "LC91460392026161LGN00",
+  "datetime": "2026-06-10T05:17:43.221131Z",
+  "cloud_cover": 6.38,
+  "platform": "landsat-9",
+  "bbox": [
+    77.9,
+    30.2,
+    78.2,
+    30.45
+  ],
+  "stac_id": "LC09_L2SP_146039_20260610_02_T1",
+  "files": {
+    "band10": "LC91460392026161LGN00_B10.TIF",
+    "band4": "LC91460392026161LGN00_B4.TIF",
+    "band5": "LC91460392026161LGN00_B5.TIF",
+    "mtl": "LC91460392026161LGN00_MTL.txt",
+    "st_trad": "LC91460392026161LGN00_ST_TRAD.TIF",
+    "band6": "LC91460392026161LGN00_B6.TIF",
+    "mtl_json": "LC91460392026161LGN00_MTL.json"
+  }
+}

@@ -1,0 +1,208 @@
+{
+  "finished_at": "2026-06-17T15:24:27.290472",
+  "results": [
+    {
+      "slug": "mumbai",
+      "ok": true,
+      "seconds": 432.9,
+      "stdout_tail": "wnloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py --bbox 72.75,18.85,73.15,19.35 --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\mumbai\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\calculate_lst.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\mumbai --bbox 72.75,18.85,73.15,19.35\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\ml\\train_classifier.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\mumbai --bbox 72.75,18.85,73.15,19.35 --city mumbai --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\processed\\zones_mumbai.json --zones-only\nDone: Mumbai (mumbai)\n",
+      "stderr_tail": "C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py:145: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  end = datetime.utcnow()\n"
+    },
+    {
+      "slug": "bengaluru",
+      "ok": true,
+      "seconds": 232.1,
+      "stdout_tail": "ripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py --bbox 77.45,12.85,77.85,13.25 --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\bengaluru\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\calculate_lst.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\bengaluru --bbox 77.45,12.85,77.85,13.25\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\ml\\train_classifier.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\bengaluru --bbox 77.45,12.85,77.85,13.25 --city bengaluru --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\processed\\zones_bengaluru.json --zones-only\nDone: Bengaluru (bengaluru)\n",
+      "stderr_tail": "C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py:145: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  end = datetime.utcnow()\n"
+    },
+    {
+      "slug": "hyderabad",
+      "ok": true,
+      "seconds": 490.6,
+      "stdout_tail": "ripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py --bbox 78.35,17.25,78.75,17.65 --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\hyderabad\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\calculate_lst.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\hyderabad --bbox 78.35,17.25,78.75,17.65\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\ml\\train_classifier.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\hyderabad --bbox 78.35,17.25,78.75,17.65 --city hyderabad --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\processed\\zones_hyderabad.json --zones-only\nDone: Hyderabad (hyderabad)\n",
+      "stderr_tail": "C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py:145: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  end = datetime.utcnow()\n"
+    },
+    {
+      "slug": "chennai",
+      "ok": true,
+      "seconds": 473.5,
+      "stdout_tail": "\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py --bbox 80.15,12.95,80.55,13.35 --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\chennai\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\calculate_lst.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\chennai --bbox 80.15,12.95,80.55,13.35\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\ml\\train_classifier.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\chennai --bbox 80.15,12.95,80.55,13.35 --city chennai --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\processed\\zones_chennai.json --zones-only\nDone: Chennai (chennai)\n",
+      "stderr_tail": "C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py:145: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  end = datetime.utcnow()\n"
+    },
+    {
+      "slug": "kolkata",
+      "ok": true,
+      "seconds": 319.8,
+      "stdout_tail": "ads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py --bbox 88.2,22.45,88.55,22.75 --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\kolkata\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\calculate_lst.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\kolkata --bbox 88.2,22.45,88.55,22.75\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\ml\\train_classifier.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\kolkata --bbox 88.2,22.45,88.55,22.75 --city kolkata --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\processed\\zones_kolkata.json --zones-only\nDone: Kolkata (kolkata)\n",
+      "stderr_tail": "C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py:145: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  end = datetime.utcnow()\n"
+    },
+    {
+      "slug": "pune",
+      "ok": true,
+      "seconds": 299.4,
+      "stdout_tail": "hant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py --bbox 73.65,18.35,74.05,18.65 --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\pune\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\calculate_lst.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\pune --bbox 73.65,18.35,74.05,18.65\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\ml\\train_classifier.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\pune --bbox 73.65,18.35,74.05,18.65 --city pune --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\processed\\zones_pune.json --zones-only\nDone: Pune (pune)\n",
+      "stderr_tail": "C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py:145: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  end = datetime.utcnow()\n"
+    },
+    {
+      "slug": "ahmedabad",
+      "ok": true,
+      "seconds": 262.3,
+      "stdout_tail": "\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py --bbox 72.4,22.85,72.75,23.15 --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\ahmedabad\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\calculate_lst.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\ahmedabad --bbox 72.4,22.85,72.75,23.15\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\ml\\train_classifier.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\ahmedabad --bbox 72.4,22.85,72.75,23.15 --city ahmedabad --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\processed\\zones_ahmedabad.json --zones-only\nDone: Ahmedabad (ahmedabad)\n",
+      "stderr_tail": "C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py:145: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  end = datetime.utcnow()\n"
+    },
+    {
+      "slug": "jaipur",
+      "ok": true,
+      "seconds": 317.1,
+      "stdout_tail": "\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py --bbox 75.6,26.75,75.95,27.05 --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\jaipur\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\calculate_lst.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\jaipur --bbox 75.6,26.75,75.95,27.05\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\ml\\train_classifier.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\jaipur --bbox 75.6,26.75,75.95,27.05 --city jaipur --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\processed\\zones_jaipur.json --zones-only\nDone: Jaipur (jaipur)\n",
+      "stderr_tail": "C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py:145: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  end = datetime.utcnow()\n"
+    },
+    {
+      "slug": "lucknow",
+      "ok": true,
+      "seconds": 298.2,
+      "stdout_tail": "av\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py --bbox 80.8,26.7,81.1,27.0 --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\lucknow\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\calculate_lst.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\lucknow --bbox 80.8,26.7,81.1,27.0\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\ml\\train_classifier.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\lucknow --bbox 80.8,26.7,81.1,27.0 --city lucknow --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\processed\\zones_lucknow.json --zones-only\nDone: Lucknow (lucknow)\n",
+      "stderr_tail": "C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py:145: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  end = datetime.utcnow()\n"
+    },
+    {
+      "slug": "chandigarh",
+      "ok": true,
+      "seconds": 268.4,
+      "stdout_tail": "ipts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py --bbox 76.6,30.6,76.95,30.85 --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\chandigarh\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\calculate_lst.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\chandigarh --bbox 76.6,30.6,76.95,30.85\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\ml\\train_classifier.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\chandigarh --bbox 76.6,30.6,76.95,30.85 --city chandigarh --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\processed\\zones_chandigarh.json --zones-only\nDone: Chandigarh (chandigarh)\n",
+      "stderr_tail": "C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py:145: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  end = datetime.utcnow()\n"
+    },
+    {
+      "slug": "kochi",
+      "ok": true,
+      "seconds": 236.6,
+      "stdout_tail": "ant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py --bbox 76.15,9.8,76.45,10.05 --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\kochi\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\calculate_lst.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\kochi --bbox 76.15,9.8,76.45,10.05\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\ml\\train_classifier.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\kochi --bbox 76.15,9.8,76.45,10.05 --city kochi --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\processed\\zones_kochi.json --zones-only\nDone: Kochi (kochi)\n",
+      "stderr_tail": "C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py:145: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  end = datetime.utcnow()\n"
+    },
+    {
+      "slug": "indore",
+      "ok": true,
+      "seconds": 201.1,
+      "stdout_tail": "rav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py --bbox 75.7,22.55,76.0,22.85 --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\indore\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\calculate_lst.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\indore --bbox 75.7,22.55,76.0,22.85\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\ml\\train_classifier.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\indore --bbox 75.7,22.55,76.0,22.85 --city indore --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\processed\\zones_indore.json --zones-only\nDone: Indore (indore)\n",
+      "stderr_tail": "C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py:145: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  end = datetime.utcnow()\n"
+    },
+    {
+      "slug": "bhopal",
+      "ok": true,
+      "seconds": 305.9,
+      "stdout_tail": "rav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py --bbox 77.25,23.1,77.55,23.4 --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\bhopal\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\calculate_lst.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\bhopal --bbox 77.25,23.1,77.55,23.4\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\ml\\train_classifier.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\bhopal --bbox 77.25,23.1,77.55,23.4 --city bhopal --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\processed\\zones_bhopal.json --zones-only\nDone: Bhopal (bhopal)\n",
+      "stderr_tail": "C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py:145: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  end = datetime.utcnow()\n"
+    },
+    {
+      "slug": "visakhapatnam",
+      "ok": true,
+      "seconds": 294.3,
+      "stdout_tail": "\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py --bbox 83.05,17.55,83.35,17.8 --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\visakhapatnam\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\calculate_lst.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\visakhapatnam --bbox 83.05,17.55,83.35,17.8\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\ml\\train_classifier.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\visakhapatnam --bbox 83.05,17.55,83.35,17.8 --city visakhapatnam --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\processed\\zones_visakhapatnam.json --zones-only\nDone: Visakhapatnam (visakhapatnam)\n",
+      "stderr_tail": "C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py:145: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  end = datetime.utcnow()\n"
+    },
+    {
+      "slug": "surat",
+      "ok": true,
+      "seconds": 334.6,
+      "stdout_tail": " Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py --bbox 72.65,21.05,72.95,21.3 --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\surat\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\calculate_lst.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\surat --bbox 72.65,21.05,72.95,21.3\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\ml\\train_classifier.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\surat --bbox 72.65,21.05,72.95,21.3 --city surat --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\processed\\zones_surat.json --zones-only\nDone: Surat (surat)\n",
+      "stderr_tail": "C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py:145: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  end = datetime.utcnow()\n"
+    },
+    {
+      "slug": "nagpur",
+      "ok": true,
+      "seconds": 305.1,
+      "stdout_tail": "rav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py --bbox 78.95,21.0,79.25,21.3 --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\nagpur\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\calculate_lst.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\nagpur --bbox 78.95,21.0,79.25,21.3\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\ml\\train_classifier.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\nagpur --bbox 78.95,21.0,79.25,21.3 --city nagpur --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\processed\\zones_nagpur.json --zones-only\nDone: Nagpur (nagpur)\n",
+      "stderr_tail": "C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py:145: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  end = datetime.utcnow()\n"
+    },
+    {
+      "slug": "patna",
+      "ok": true,
+      "seconds": 244.3,
+      "stdout_tail": "ishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py --bbox 85.0,25.45,85.3,25.7 --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\patna\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\calculate_lst.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\patna --bbox 85.0,25.45,85.3,25.7\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\ml\\train_classifier.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\patna --bbox 85.0,25.45,85.3,25.7 --city patna --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\processed\\zones_patna.json --zones-only\nDone: Patna (patna)\n",
+      "stderr_tail": "C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py:145: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  end = datetime.utcnow()\n"
+    },
+    {
+      "slug": "guwahati",
+      "ok": true,
+      "seconds": 241.3,
+      "stdout_tail": "o\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py --bbox 91.55,26.0,91.85,26.25 --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\guwahati\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\calculate_lst.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\guwahati --bbox 91.55,26.0,91.85,26.25\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\ml\\train_classifier.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\guwahati --bbox 91.55,26.0,91.85,26.25 --city guwahati --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\processed\\zones_guwahati.json --zones-only\nDone: Guwahati (guwahati)\n",
+      "stderr_tail": "C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py:145: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  end = datetime.utcnow()\n"
+    },
+    {
+      "slug": "srinagar",
+      "ok": true,
+      "seconds": 346.3,
+      "stdout_tail": "o\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py --bbox 74.65,33.95,74.95,34.2 --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\srinagar\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\calculate_lst.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\srinagar --bbox 74.65,33.95,74.95,34.2\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\ml\\train_classifier.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\srinagar --bbox 74.65,33.95,74.95,34.2 --city srinagar --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\processed\\zones_srinagar.json --zones-only\nDone: Srinagar (srinagar)\n",
+      "stderr_tail": "C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py:145: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  end = datetime.utcnow()\n"
+    },
+    {
+      "slug": "dehradun",
+      "ok": true,
+      "seconds": 230.2,
+      "stdout_tail": "ds\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py --bbox 77.9,30.2,78.2,30.45 --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\dehradun\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\calculate_lst.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\dehradun --bbox 77.9,30.2,78.2,30.45\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\ml\\train_classifier.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\dehradun --bbox 77.9,30.2,78.2,30.45 --city dehradun --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\processed\\zones_dehradun.json --zones-only\nDone: Dehradun (dehradun)\n",
+      "stderr_tail": "C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py:145: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  end = datetime.utcnow()\n"
+    },
+    {
+      "slug": "ranchi",
+      "ok": true,
+      "seconds": 391.5,
+      "stdout_tail": "rav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py --bbox 85.15,23.2,85.45,23.5 --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\ranchi\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\calculate_lst.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\ranchi --bbox 85.15,23.2,85.45,23.5\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\ml\\train_classifier.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\ranchi --bbox 85.15,23.2,85.45,23.5 --city ranchi --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\processed\\zones_ranchi.json --zones-only\nDone: Ranchi (ranchi)\n",
+      "stderr_tail": "C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py:145: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  end = datetime.utcnow()\n"
+    },
+    {
+      "slug": "bhubaneswar",
+      "ok": true,
+      "seconds": 741.3,
+      "stdout_tail": "n.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py --bbox 85.65,20.15,85.95,20.4 --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\bhubaneswar\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\calculate_lst.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\bhubaneswar --bbox 85.65,20.15,85.95,20.4\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\ml\\train_classifier.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\bhubaneswar --bbox 85.65,20.15,85.95,20.4 --city bhubaneswar --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\processed\\zones_bhubaneswar.json --zones-only\nDone: Bhubaneswar (bhubaneswar)\n",
+      "stderr_tail": "C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py:145: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  end = datetime.utcnow()\n"
+    },
+    {
+      "slug": "gurgaon",
+      "ok": true,
+      "seconds": 440.0,
+      "stdout_tail": "ads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py --bbox 76.85,28.35,77.2,28.55 --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\gurgaon\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\calculate_lst.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\gurgaon --bbox 76.85,28.35,77.2,28.55\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\ml\\train_classifier.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\gurgaon --bbox 76.85,28.35,77.2,28.55 --city gurgaon --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\processed\\zones_gurgaon.json --zones-only\nDone: Gurgaon (gurgaon)\n",
+      "stderr_tail": "C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py:145: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  end = datetime.utcnow()\n"
+    },
+    {
+      "slug": "noida",
+      "ok": true,
+      "seconds": 750.3,
+      "stdout_tail": " Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py --bbox 77.25,28.4,77.55,28.65 --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\noida\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\calculate_lst.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\noida --bbox 77.25,28.4,77.55,28.65\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\ml\\train_classifier.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\noida --bbox 77.25,28.4,77.55,28.65 --city noida --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\processed\\zones_noida.json --zones-only\nDone: Noida (noida)\n",
+      "stderr_tail": "C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py:145: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  end = datetime.utcnow()\n"
+    },
+    {
+      "slug": "agra",
+      "ok": true,
+      "seconds": 325.9,
+      "stdout_tail": "Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py --bbox 77.85,27.05,78.15,27.3 --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\agra\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\calculate_lst.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\agra --bbox 77.85,27.05,78.15,27.3\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\ml\\train_classifier.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\agra --bbox 77.85,27.05,78.15,27.3 --city agra --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\processed\\zones_agra.json --zones-only\nDone: Agra (agra)\n",
+      "stderr_tail": "C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py:145: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  end = datetime.utcnow()\n"
+    },
+    {
+      "slug": "varanasi",
+      "ok": true,
+      "seconds": 454.1,
+      "stdout_tail": "ds\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py --bbox 82.8,25.2,83.1,25.45 --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\varanasi\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\calculate_lst.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\varanasi --bbox 82.8,25.2,83.1,25.45\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\ml\\train_classifier.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\varanasi --bbox 82.8,25.2,83.1,25.45 --city varanasi --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\processed\\zones_varanasi.json --zones-only\nDone: Varanasi (varanasi)\n",
+      "stderr_tail": "C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py:145: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  end = datetime.utcnow()\n"
+    },
+    {
+      "slug": "amritsar",
+      "ok": true,
+      "seconds": 316.0,
+      "stdout_tail": "ds\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py --bbox 74.7,31.5,75.0,31.75 --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\amritsar\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\calculate_lst.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\amritsar --bbox 74.7,31.5,75.0,31.75\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\ml\\train_classifier.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\amritsar --bbox 74.7,31.5,75.0,31.75 --city amritsar --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\processed\\zones_amritsar.json --zones-only\nDone: Amritsar (amritsar)\n",
+      "stderr_tail": "C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py:145: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  end = datetime.utcnow()\n"
+    },
+    {
+      "slug": "goa",
+      "ok": true,
+      "seconds": 323.5,
+      "stdout_tail": "\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py --bbox 73.65,15.35,73.95,15.6 --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\goa\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\calculate_lst.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\goa --bbox 73.65,15.35,73.95,15.6\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\ml\\train_classifier.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\goa --bbox 73.65,15.35,73.95,15.6 --city goa --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\processed\\zones_goa.json --zones-only\nDone: Goa (goa)\n",
+      "stderr_tail": "C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py:145: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  end = datetime.utcnow()\n"
+    },
+    {
+      "slug": "shimla",
+      "ok": true,
+      "seconds": 574.5,
+      "stdout_tail": "\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py --bbox 77.05,30.95,77.3,31.25 --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\shimla\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\calculate_lst.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\shimla --bbox 77.05,30.95,77.3,31.25\n>> C:\\Users\\Nishant Gaurav\\Downloads\\isro\\.venv\\Scripts\\python.exe C:\\Users\\Nishant Gaurav\\Downloads\\isro\\ml\\train_classifier.py --raw-dir C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\raw\\cities\\shimla --bbox 77.05,30.95,77.3,31.25 --city shimla --output C:\\Users\\Nishant Gaurav\\Downloads\\isro\\data\\processed\\zones_shimla.json --zones-only\nDone: Shimla (shimla)\n",
+      "stderr_tail": "C:\\Users\\Nishant Gaurav\\Downloads\\isro\\scripts\\fetch_landsat.py:145: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  end = datetime.utcnow()\n"
+    }
+  ]
+}
