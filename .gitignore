@@ -1,6 +1,6 @@
 .venv/
 node_modules/
-.next/
+next/
 __pycache__/
 *.pyc
 .env
@@ -9,3 +9,5 @@ data/raw/**/*.TIF
 data/processed/*.tif
 *.egg-info/
 .DS_Store
+ml/models/*.joblib
+ml/models/feature_importance.png
