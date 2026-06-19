@@ -102,13 +102,17 @@ def parse_bbox(bbox: str) -> tuple[float, float, float, float]:
 
 
 _CITY_REGISTRY: list[dict] | None = None
+_CITY_REGISTRY_MTIME: float | None = None
 
 
 def load_city_registry() -> list[dict]:
-    global _CITY_REGISTRY
-    if _CITY_REGISTRY is None:
-        with open(ROOT / "data/city_registry.json") as f:
+    global _CITY_REGISTRY, _CITY_REGISTRY_MTIME
+    path = ROOT / "data/city_registry.json"
+    mtime = path.stat().st_mtime
+    if _CITY_REGISTRY is None or _CITY_REGISTRY_MTIME != mtime:
+        with open(path) as f:
             _CITY_REGISTRY = json.load(f)
+        _CITY_REGISTRY_MTIME = mtime
     return _CITY_REGISTRY
 
 
@@ -375,7 +379,7 @@ def list_cities():
 
 
 @app.get("/api/zones")
-def list_zones(city: str | None = "delhi", bbox: str | None = None, limit: int = 5000):
+def list_zones(city: str | None = None, bbox: str | None = None, limit: int = 5000):
     if use_db():
         session = SessionLocal()
         if bbox:
@@ -413,7 +417,7 @@ def list_zones(city: str | None = "delhi", bbox: str | None = None, limit: int =
             west, south, east, north = parse_bbox(bbox)
             rows = get_store().zones_in_bbox(west, south, east, north, city=city, limit=limit)
         else:
-            rows = get_store().zones_for_city(city or "delhi")[:limit]
+            rows = get_store().zones_for_city(city)[:limit] if city else []
         features = [
             {
                 "type": "Feature",
@@ -590,7 +594,7 @@ def reverse_geocode(lat: float, lon: float):
 
 
 @app.get("/api/zones/near")
-def zone_near(lat: float, lon: float, city: str | None = "delhi"):
+def zone_near(lat: float, lon: float, city: str | None = None):
     if use_db():
         session = SessionLocal()
         row = session.execute(

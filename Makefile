@@ -1,10 +1,9 @@
-.PHONY: venv install pipeline api seed frontend dev
+.PHONY: venv install pipeline rebuild-all api seed frontend dev
 
-PYTHON := .venv/Scripts/python
-PIP := .venv/Scripts/pip
+PYTHON := tools/python312/python
+PIP := tools/python312/python -m pip
 
 venv:
-	py -3.13 -m venv .venv
 	$(PIP) install --upgrade pip
 	$(PIP) install -r requirements.txt
 
@@ -28,3 +27,6 @@ frontend:
 dev: api
 
 demo-setup: pipeline seed
+
+rebuild-all:
+	$(PYTHON) scripts/rebuild_all_cities.py

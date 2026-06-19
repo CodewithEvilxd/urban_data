@@ -19,14 +19,8 @@ def load_india_cities() -> list[dict]:
     global _CITIES
     if _CITIES is None:
         merged: dict[tuple[float, float], dict] = {}
-        paths = [
-            ROOT / "data/city_registry.json",
-            ROOT / "data/india_cities.json",
-            ROOT / "data/india_places.json",
-        ]
-        for path in paths:
-            if not path.exists():
-                continue
+        path = ROOT / "data/city_registry.json"
+        if path.exists():
             with open(path) as f:
                 rows = json.load(f)
             for row in rows:
@@ -130,25 +124,27 @@ def reverse_geocode_local(lat: float, lon: float) -> dict:
             best_kind = "city"
             best_state = city.get("state", "India")
 
-    label = best or "India"
-    if best_kind == "locality":
-        display = f"{label}, Delhi, India"
-        suburb = label
-        city = "Delhi"
+    max_label_distance_m = 3_000 if best_kind == "locality" else 25_000
+    if best and best_dist <= max_label_distance_m:
+        location_label = f"Near {best}, {best_state}, India"
+        city_name = best if best_kind == "city" else None
+        suburb = best if best_kind == "locality" else None
+        state = best_state
     else:
-        display = f"{label}, {best_state}, India"
+        location_label = f"Coordinates: {lat:.5f}, {lon:.5f}"
+        city_name = None
         suburb = None
-        city = label
+        state = None
 
     return {
-        "display_name": display,
+        "display_name": location_label,
         "postcode": None,
         "suburb": suburb,
-        "city": city,
-        "state": best_state,
-        "country": "India",
+        "city": city_name,
+        "state": state,
+        "country": "India" if state else None,
         "source": "local",
-        "distance_m": round(best_dist) if best_dist != float("inf") else None,
+        "distance_m": round(best_dist) if best else None,
     }
 
 

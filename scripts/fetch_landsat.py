@@ -34,6 +34,53 @@ def scene_id_from_item(item) -> str:
     return item.properties.get("landsat:scene_id") or item.id.replace("/", "_")
 
 
+def bbox_intersection_area(a: tuple, b: tuple) -> float:
+    west = max(a[0], b[0])
+    south = max(a[1], b[1])
+    east = min(a[2], b[2])
+    north = min(a[3], b[3])
+    if west >= east or south >= north:
+        return 0.0
+    return (east - west) * (north - south)
+
+
+def bbox_contains(outer: tuple, inner: tuple) -> bool:
+    return (
+        outer[0] <= inner[0]
+        and outer[1] <= inner[1]
+        and outer[2] >= inner[2]
+        and outer[3] >= inner[3]
+    )
+
+
+def bbox_margin(outer: tuple, inner: tuple) -> float:
+    if not bbox_contains(outer, inner):
+        return 0.0
+    return min(
+        inner[0] - outer[0],
+        inner[1] - outer[1],
+        outer[2] - inner[2],
+        outer[3] - inner[3],
+    )
+
+
+def pick_best_scene(items: list, target_bbox: tuple):
+    if not items:
+        return None
+    target_area = max((target_bbox[2] - target_bbox[0]) * (target_bbox[3] - target_bbox[1]), 1e-12)
+
+    def score(item):
+        item_bbox = tuple(item.bbox)
+        coverage = bbox_intersection_area(item_bbox, target_bbox) / target_area
+        full_cover = 1 if bbox_contains(item_bbox, target_bbox) else 0
+        margin = bbox_margin(item_bbox, target_bbox)
+        cloud = float(item.properties.get("eo:cloud_cover") or 100.0)
+        dt = item.properties.get("datetime") or ""
+        return (full_cover, coverage, margin, -cloud, dt)
+
+    return max(items, key=score)
+
+
 def search_scenes(bbox: tuple, start: datetime, end: datetime):
     catalog = pystac_client.Client.open(
         "https://planetarycomputer.microsoft.com/api/stac/v1",
@@ -49,7 +96,7 @@ def search_scenes(bbox: tuple, start: datetime, end: datetime):
     )
     items = list(search.items())
     if items:
-        return items[0]
+        return pick_best_scene(items, bbox)
 
     search = catalog.search(
         collections=["landsat-c2-l2"],
@@ -59,7 +106,7 @@ def search_scenes(bbox: tuple, start: datetime, end: datetime):
         max_items=1,
     )
     fallback = list(search.items())
-    return fallback[0] if fallback else None
+    return pick_best_scene(fallback, bbox)
 
 
 def download_asset(url: str, dest: Path) -> None:

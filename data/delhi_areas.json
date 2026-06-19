@@ -23,5 +23,5 @@
   {"name": "Noida Sector 18", "aliases": ["noida", "sector 18"], "lat": 28.5706, "lon": 77.3219},
   {"name": "Greater Noida", "aliases": ["greater noida"], "lat": 28.4744, "lon": 77.5040},
   {"name": "Faridabad", "aliases": ["faridabad nit"], "lat": 28.4089, "lon": 77.3178},
-  {"name": "Ghaziabad", "aliases": ["raj nagar"], "lat": 28.6692, "lon": 77.4538}
+  {"name": "Ghaziabad", "aliases": ["raj nagar"], "lat": 28.6692, "lon": 77.4538}  
 ]

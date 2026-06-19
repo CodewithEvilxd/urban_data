@@ -14,6 +14,28 @@ export default function AreaSearch({ onSelectAreaAction }: Props) {
   const [loading, setLoading] = useState(false);
   const debounce = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const runSearch = async (value: string, autoPick = false) => {
+    const q = value.trim();
+    if (q.length < 2) {
+      setResults([]);
+      return;
+    }
+    setLoading(true);
+    try {
+      const hits = await searchAreas(q);
+      setResults(hits);
+      setOpen(hits.length > 0);
+      if (autoPick && hits[0]) {
+        pick(hits[0]);
+      }
+    } catch {
+      setResults([]);
+      setOpen(false);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (debounce.current) clearTimeout(debounce.current);
     if (query.trim().length < 2) {
@@ -21,16 +43,7 @@ export default function AreaSearch({ onSelectAreaAction }: Props) {
       return;
     }
     debounce.current = setTimeout(async () => {
-      setLoading(true);
-      try {
-        const hits = await searchAreas(query);
-        setResults(hits);
-        setOpen(true);
-      } catch {
-        setResults([]);
-      } finally {
-        setLoading(false);
-      }
+      runSearch(query);
     }, 250);
     return () => {
       if (debounce.current) clearTimeout(debounce.current);
@@ -45,7 +58,17 @@ export default function AreaSearch({ onSelectAreaAction }: Props) {
 
   return (
     <div className="relative w-full max-w-xs sm:max-w-sm">
-      <div className="flex gap-2">
+      <form
+        className="flex gap-2"
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (results[0]) {
+            pick(results[0]);
+          } else {
+            runSearch(query, true);
+          }
+        }}
+      >
         <input
           type="search"
           value={query}
@@ -55,18 +78,25 @@ export default function AreaSearch({ onSelectAreaAction }: Props) {
           className="w-full rounded-md border border-slate-700 bg-slate-900/95 px-3 py-2 text-sm text-white placeholder:text-slate-500 focus:border-orange-500 focus:outline-none"
         />
         <button
+          aria-label="Search location"
           type="button"
-          onClick={() => results[0] && pick(results[0])}
-          disabled={!results.length}
+          onClick={() => {
+            if (results[0]) {
+              pick(results[0]);
+            } else {
+              runSearch(query, true);
+            }
+          }}
+          disabled={query.trim().length < 2 || loading}
           className="shrink-0 rounded-md bg-orange-600 px-3 py-2 text-xs font-medium text-white hover:bg-orange-500 disabled:opacity-40"
         >
           Go
         </button>
-      </div>
+      </form>
       {open && results.length > 0 && (
         <ul className="absolute left-0 right-0 top-full z-[600] mt-1 max-h-56 overflow-y-auto rounded-md border border-slate-700 bg-slate-900 shadow-xl">
-          {results.map((area) => (
-            <li key={area.name}>
+          {results.map((area, index) => (
+            <li key={`${area.name}-${area.lat}-${area.lon}-${index}`}>
               <button
                 type="button"
                 onClick={() => pick(area)}

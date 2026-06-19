@@ -27,11 +27,27 @@ def main():
     bbox = ",".join(str(x) for x in city["bbox"])
     py = sys.executable
     raw_dir = ROOT / f"data/raw/cities/{args.city}"
+    lst_dir = ROOT / f"data/processed/lst/{args.city}"
     zones_out = ROOT / f"data/processed/zones_{args.city}.json"
 
+    fetch_cmd = [py, str(ROOT / "scripts/fetch_landsat.py"), "--bbox", bbox, "--output", str(raw_dir)]
+    print(">>", " ".join(fetch_cmd))
+    subprocess.run(fetch_cmd, cwd=ROOT, check=True)
+
+    scene_id = max((d for d in raw_dir.iterdir() if d.is_dir()), key=lambda d: d.stat().st_mtime).name
+    lst_path = lst_dir / f"lst_{scene_id}.tif"
+
     steps = [
-        [py, str(ROOT / "scripts/fetch_landsat.py"), "--bbox", bbox, "--output", str(raw_dir)],
-        [py, str(ROOT / "scripts/calculate_lst.py"), "--raw-dir", str(raw_dir), "--bbox", bbox],
+        [
+            py,
+            str(ROOT / "scripts/calculate_lst.py"),
+            "--raw-dir",
+            str(raw_dir),
+            "--bbox",
+            bbox,
+            "--output-dir",
+            str(lst_dir),
+        ],
         [
             py,
             str(ROOT / "ml/train_classifier.py"),
@@ -41,6 +57,8 @@ def main():
             bbox,
             "--city",
             args.city,
+            "--lst",
+            str(lst_path),
             "--output",
             str(zones_out),
             "--zones-only",

@@ -20,8 +20,8 @@ type Props = {
   loading: boolean;
   simulating: boolean;
   simulatedClass: string | null;
-  onSimulate: (ndviIncrease: number) => void;
-  onClose: () => void;
+  onSimulateAction: (ndviIncrease: number) => void;
+  onCloseAction: () => void;
   stats: CityStats | null;
   location?: ReverseGeocode | null;
 };
@@ -31,12 +31,26 @@ export default function ZonePanel({
   loading,
   simulating,
   simulatedClass,
-  onSimulate,
-  onClose,
+  onSimulateAction,
+  onCloseAction,
   stats,
   location,
 }: Props) {
   const displayClass = simulatedClass ?? zone?.heat_class;
+  const locationDisplayName = location?.display_name?.trim() || null;
+  const locationTitle =
+    location?.suburb ??
+    location?.city ??
+    locationDisplayName ??
+    (zone ? `${zone.latitude.toFixed(5)}, ${zone.longitude.toFixed(5)}` : null);
+  const locationDetail =
+    locationDisplayName && locationDisplayName !== locationTitle
+      ? locationDisplayName
+      : location
+      ? [location.state, location.country].filter(Boolean).join(", ") || null
+      : zone
+      ? `Coordinates: ${zone.latitude.toFixed(5)}, ${zone.longitude.toFixed(5)}`
+      : null;
 
   return (
     <aside
@@ -48,7 +62,7 @@ export default function ZonePanel({
         <div className="mb-4 flex items-start justify-between">
           <h2 className="text-lg font-semibold text-white">Zone intelligence</h2>
           <button
-            onClick={onClose}
+            onClick={onCloseAction}
             className="rounded-md border border-slate-700 bg-slate-900/80 p-2 text-slate-400 transition hover:bg-slate-800 hover:text-white"
             aria-label="Close panel"
           >
@@ -65,11 +79,11 @@ export default function ZonePanel({
 
         {zone && (
           <>
-            {location?.display_name && (
+            {locationTitle && locationDetail && (
               <div className="mb-3 rounded-lg border border-slate-800 bg-slate-800/40 p-2 text-xs text-slate-300">
-                <div className="font-medium text-white">{location.suburb ?? location.city}</div>
-                <div className="text-slate-400">{location.display_name}</div>
-                {location.postcode && (
+                <div className="font-medium text-white">{locationTitle}</div>
+                <div className="text-slate-400">{locationDetail}</div>
+                {location?.postcode && (
                   <div className="mt-1 text-slate-500">PIN {location.postcode}</div>
                 )}
               </div>
@@ -169,7 +183,7 @@ export default function ZonePanel({
                   <button
                     key={inc}
                     disabled={simulating}
-                    onClick={() => onSimulate(inc)}
+                    onClick={() => onSimulateAction(inc)}
                     className="rounded-md bg-emerald-700 px-3 py-1.5 text-xs font-medium text-white hover:bg-emerald-600 disabled:opacity-50"
                   >
                     +{inc} NDVI

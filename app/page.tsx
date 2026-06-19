@@ -13,11 +13,11 @@ import StrategyChart from "@/components/StrategyChart";
 import MaterialTable from "@/components/MaterialTable";
 import PriorityTable from "@/components/PriorityTable";
 import {
-  fetchIndiaOverview,
   fetchStats,
   fetchZoneDetail,
   fetchZoneEstimate,
   fetchZoneNearAny,
+  fetchZones,
   fetchZonesByBbox,
   fetchCities,
   reverseGeocode,
@@ -34,7 +34,6 @@ const HeatMap = dynamic(() => import("@/components/HeatMap"), { ssr: false });
 const Heat3D = dynamic(() => import("@/components/Heat3D"), { ssr: false });
 
 const INDIA_CENTER: [number, number] = [20.5937, 78.9629];
-const INDIA_BBOX = "68.0,6.5,97.5,37.5";
 const DETAIL_ZOOM = 9;
 
 export default function Dashboard() {
@@ -59,42 +58,20 @@ export default function Dashboard() {
   const [locating, setLocating] = useState(false);
   const [mapZoom, setMapZoom] = useState(5);
   const [initialFit, setInitialFit] = useState(false);
-  const [indiaView, setIndiaView] = useState(true);
   const [cityRegistry, setCityRegistry] = useState<IndiaCity[]>([]);
 
   const portfolioSet = useMemo(() => new Set(portfolioIds), [portfolioIds]);
   const statsCity = activeCity?.slug ?? "india";
 
-  useEffect(() => {
-    fetchCities()
-      .then((r) => setCityRegistry(r.cities))
-      .catch(() => {});
-  }, []);
-
-  const loadIndiaOverview = useCallback(async () => {
-    setIndiaView(true);
-    setActiveCity(null);
-    setInitialFit(false);
-    setMapZoom(5);
-    setCurrentBbox(INDIA_BBOX);
-    setFlyTarget({ lat: INDIA_CENTER[0], lon: INDIA_CENTER[1], zoom: 5 });
-    try {
-      const [z, s] = await Promise.all([fetchIndiaOverview(), fetchStats("india")]);
-      setZones(z);
-      setStats(s);
-      setError(null);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Failed to load India overview");
-    }
-  }, []);
-
   const loadViewport = useCallback(
-    async (bbox: string, city?: IndiaCity | null) => {
+    async (bbox: string, city?: IndiaCity | null, fullCity = false) => {
       setCurrentBbox(bbox);
-      setIndiaView(false);
       const citySlug = city?.has_data ? city.slug : undefined;
       try {
-        const z = await fetchZonesByBbox(bbox, citySlug);
+        const z =
+          fullCity && citySlug
+            ? await fetchZones(citySlug)
+            : await fetchZonesByBbox(bbox, citySlug);
         if (z.features.length > 0) setZones(z);
         const s = await fetchStats(city?.slug ?? "viewport", bbox);
         setStats(s);
@@ -122,19 +99,14 @@ export default function Dashboard() {
   const handleCitySelect = useCallback(
     (city: IndiaCity) => {
       setActiveCity(city);
-      setIndiaView(false);
       setInitialFit(true);
       setMapZoom(11);
       setFlyTarget({ lat: city.lat, lon: city.lon, zoom: 11 });
       const bbox = city.bbox.join(",");
-      loadViewport(bbox, city);
+      loadViewport(bbox, city, true);
     },
     [loadViewport]
   );
-
-  const handleIndiaSelect = useCallback(() => {
-    loadIndiaOverview();
-  }, [loadIndiaOverview]);
 
   const handleCityOverviewClick = useCallback(
     (slug: string) => {
@@ -144,23 +116,28 @@ export default function Dashboard() {
     [cityRegistry, handleCitySelect]
   );
 
+  useEffect(() => {
+    fetchCities()
+      .then((r) => {
+        setCityRegistry(r.cities);
+        if (!activeCity && r.cities.length > 0) {
+          handleCitySelect(r.cities[0]);
+        }
+      })
+      .catch(() => {});
+  }, [activeCity, handleCitySelect]);
+
   const handleBBoxChange = useCallback(
     (bbox: string, zoom: number) => {
       setMapZoom(zoom);
-      if (indiaView && zoom < DETAIL_ZOOM) {
-        return;
-      }
       if (!activeCity && zoom < DETAIL_ZOOM) {
         return;
       }
       loadViewport(bbox, activeCity);
     },
-    [activeCity, indiaView, loadViewport]
+    [activeCity, loadViewport]
   );
 
-  useEffect(() => {
-    loadIndiaOverview();
-  }, [loadIndiaOverview]);
 
   const openZone = useCallback(async (zoneId: string, lat?: number, lon?: number) => {
     setSelectedId(zoneId);
@@ -220,6 +197,10 @@ export default function Dashboard() {
       setFlyTarget({ lat, lon, zoom });
       setMapZoom(zoom);
       setError(null);
+      setSelectedZone(null);
+      setSelectedId(null);
+      setZoneLocation(null);
+      setLoadingZone(true);
       try {
         const near = await fetchZoneNearAny(lat, lon);
         await openZone(near.zone_id, lat, lon);
@@ -232,6 +213,8 @@ export default function Dashboard() {
           setZoneLocation(geo);
         } catch {
           setError("Could not load heat data for this location.");
+        } finally {
+          setLoadingZone(false);
         }
       }
     },
@@ -251,17 +234,44 @@ export default function Dashboard() {
       return;
     }
     setLocating(true);
-    navigator.geolocation.getCurrentPosition(
+
+    let best: GeolocationPosition | null = null;
+    let watchId: number | null = null;
+    let finished = false;
+    const finish = () => {
+      if (finished) return;
+      finished = true;
+      if (watchId !== null) navigator.geolocation.clearWatch(watchId);
+      setLocating(false);
+
+      if (!best) {
+        setError("Could not get your location. Allow precise GPS permission and try again.");
+        return;
+      }
+
+      const { latitude, longitude, accuracy } = best.coords;
+      if (!accuracy || accuracy > 1500) {
+        setError(
+          `Location accuracy is too low (${accuracy ? Math.round(accuracy) : "unknown"} m). Turn on precise GPS/location services and try again.`
+        );
+        return;
+      }
+      flyToPoint(latitude, longitude, 15);
+    };
+
+    watchId = navigator.geolocation.watchPosition(
       (pos) => {
-        setLocating(false);
-        flyToPoint(pos.coords.latitude, pos.coords.longitude, 15);
+        if (!best || pos.coords.accuracy < best.coords.accuracy) {
+          best = pos;
+        }
+        if (pos.coords.accuracy <= 150) {
+          finish();
+        }
       },
-      () => {
-        setLocating(false);
-        setError("Could not get your location — allow GPS permission");
-      },
-      { enableHighAccuracy: true, timeout: 12000 }
+      () => finish(),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 }
     );
+    window.setTimeout(finish, 8000);
   };
 
   return (
@@ -279,11 +289,7 @@ export default function Dashboard() {
                   bbox={currentBbox}
                   onRefresh={refreshStats}
                 />
-                <CitySelector
-                  value={activeCity?.slug ?? null}
-                  onSelectAction={handleCitySelect}
-                  onIndiaSelectAction={handleIndiaSelect}
-                />
+                <CitySelector value={activeCity?.slug ?? null} onSelectAction={handleCitySelect} />
                 <AreaSearch onSelectAreaAction={handleAreaSelect} />
                 <button
                   type="button"
@@ -351,7 +357,6 @@ export default function Dashboard() {
                     portfolioZoneIds={portfolioSet}
                     onBBoxChange={handleBBoxChange}
                     initialFit={initialFit}
-                    indiaView={indiaView}
                     onCityOverviewClick={handleCityOverviewClick}
                     onMapClick={handleMapClick}
                     mapCenter={activeCity ? [activeCity.lat, activeCity.lon] : INDIA_CENTER}
@@ -398,8 +403,8 @@ export default function Dashboard() {
         loading={loadingZone}
         simulating={simulating}
         simulatedClass={selectedId ? simulatedClasses[selectedId] ?? null : null}
-        onSimulate={handleSimulate}
-        onClose={() => {
+        onSimulateAction={handleSimulate}
+        onCloseAction={() => {
           setSelectedZone(null);
           setSelectedId(null);
           setZoneLocation(null);
