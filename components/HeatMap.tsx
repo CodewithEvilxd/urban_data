@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef } from "react";
 import { MapContainer, TileLayer, GeoJSON, useMap, useMapEvents } from "react-leaflet";
-import type { ZoneCollection } from "@/lib/api";
+import { reverseGeocode, type ReverseGeocode, type ZoneCollection } from "@/lib/api";
 import { heatClassColor } from "@/lib/colors";
 import "leaflet/dist/leaflet.css";
 
@@ -11,14 +11,14 @@ type Props = {
   selectedZoneId: string | null;
   simulatedClasses: Record<string, string>;
   viewMode: "current" | "simulated";
-  onZoneClick: (zoneId: string) => void;
+  onZoneClickAction: (zoneId: string) => void;
   flyTarget: { lat: number; lon: number; zoom?: number } | null;
   portfolioZoneIds?: Set<string>;
-  onBBoxChange?: (bbox: string, zoom: number) => void;
+  onBBoxChangeAction?: (bbox: string, zoom: number) => void;
   initialFit?: boolean;
   indiaView?: boolean;
-  onCityOverviewClick?: (slug: string) => void;
-  onMapClick?: (lat: number, lon: number) => void;
+  onCityOverviewClickAction?: (slug: string) => void;
+  onMapClickAction?: (lat: number, lon: number) => void;
   mapCenter?: [number, number];
   defaultZoom?: number;
 };
@@ -71,16 +71,16 @@ function FitIndiaBounds({ active }: { active: boolean }) {
   return null;
 }
 
-function MapClickHandler({ onMapClick }: { onMapClick?: (lat: number, lon: number) => void }) {
+function MapClickHandler({ onMapClickAction }: { onMapClickAction?: (lat: number, lon: number) => void }) {
   useMapEvents({
     click(e) {
-      onMapClick?.(e.latlng.lat, e.latlng.lng);
+      onMapClickAction?.(e.latlng.lat, e.latlng.lng);
     },
   });
   return null;
 }
 
-function BboxWatcher({ onBBoxChange }: { onBBoxChange: (bbox: string, zoom: number) => void }) {
+function BboxWatcher({ onBBoxChangeAction }: { onBBoxChangeAction: (bbox: string, zoom: number) => void }) {
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const map = useMapEvents({
     moveend() {
@@ -91,11 +91,72 @@ function BboxWatcher({ onBBoxChange }: { onBBoxChange: (bbox: string, zoom: numb
         const south = b.getSouth().toFixed(5);
         const east = b.getEast().toFixed(5);
         const north = b.getNorth().toFixed(5);
-        onBBoxChange(`${west},${south},${east},${north}`, map.getZoom());
+        onBBoxChangeAction(`${west},${south},${east},${north}`, map.getZoom());
       }, 400);
     },
   });
   return null;
+}
+
+function escapeHtml(value: unknown): string {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function placeFromReverse(geo: ReverseGeocode): string | null {
+  return (
+    geo.place_name ||
+    geo.suburb ||
+    geo.village ||
+    geo.town ||
+    geo.city ||
+    geo.county ||
+    geo.road ||
+    geo.display_name ||
+    null
+  );
+}
+
+function formatDistance(distance: unknown): string {
+  if (typeof distance !== "number" || distance <= 0) return "";
+  if (distance < 1000) return `${Math.round(distance)} m away`;
+  return `${(distance / 1000).toFixed(1)} km away`;
+}
+
+function zoneTooltip(props: Record<string, unknown>, resolvedPlace?: string | null, loading = false): string {
+  const title = resolvedPlace || (props.place_name as string | undefined) || (props.zone_id as string);
+  const locationLine =
+    loading
+      ? "Resolving exact place..."
+      : [props.place_state as string | undefined, formatDistance(props.place_distance_m)]
+          .filter(Boolean)
+          .join(" - ") || "Mapped heat zone";
+  const lst = Number(props.mean_lst);
+  const lstLabel = Number.isFinite(lst) ? lst.toFixed(1) : "-";
+
+  return `<strong>${escapeHtml(title)}</strong><br/>${escapeHtml(locationLine)}<br/>Zone: ${escapeHtml(
+    props.zone_id
+  )}<br/>LST: ${escapeHtml(lstLabel)} C - ${escapeHtml(props.heat_class)}`;
+}
+
+function overviewTooltip(props: Record<string, unknown>): string {
+  const lst = Number(props.mean_lst);
+  const lstLabel = Number.isFinite(lst) ? lst.toFixed(1) : "-";
+  return `<strong>${escapeHtml(props.name)}</strong><br/>LST: ${escapeHtml(lstLabel)} C<br/>${escapeHtml(
+    props.zone_count
+  )} zones - ${escapeHtml(props.critical_count)} critical`;
+}
+
+function nationalTooltip(props: Record<string, unknown>): string {
+  const lst = Number(props.mean_lst);
+  const lstLabel = Number.isFinite(lst) ? lst.toFixed(1) : "-";
+  return `<strong>India heat grid</strong><br/>LST: ${escapeHtml(lstLabel)} C - ${escapeHtml(
+    props.heat_class
+  )}<br/><em>Click for location detail</em>`;
 }
 
 export default function HeatMap({
@@ -103,18 +164,19 @@ export default function HeatMap({
   selectedZoneId,
   simulatedClasses,
   viewMode,
-  onZoneClick,
+  onZoneClickAction,
   flyTarget,
   portfolioZoneIds,
-  onBBoxChange,
+  onBBoxChangeAction,
   initialFit = true,
   indiaView = false,
-  onCityOverviewClick,
-  onMapClick,
+  onCityOverviewClickAction,
+  onMapClickAction,
   mapCenter = [20.5937, 78.9629],
   defaultZoom = 5,
 }: Props) {
   const center = mapCenter;
+  const reverseCache = useRef<Map<string, string | null>>(new Map());
 
   const style = useMemo(
     () => (feature: GeoJSON.Feature | undefined) => {
@@ -133,7 +195,15 @@ export default function HeatMap({
         fillColor: heatClassColor(heatClass),
         weight: selected ? 3 : isNational ? 0.25 : isOverview ? 1.5 : inPortfolio ? 2 : 0.5,
         opacity: isNational ? 0.85 : 1,
-        color: selected ? "#ffffff" : isNational ? "transparent" : isOverview ? "#f97316" : inPortfolio ? "#34d399" : "#1e293b",
+        color: selected
+          ? "#ffffff"
+          : isNational
+          ? "transparent"
+          : isOverview
+          ? "#f97316"
+          : inPortfolio
+          ? "#34d399"
+          : "#1e293b",
         fillOpacity: selected ? 0.9 : isNational ? 0.62 : isOverview ? 0.72 : inPortfolio ? 0.8 : 0.65,
         dashArray: inPortfolio && !selected ? "4 2" : undefined,
       };
@@ -148,8 +218,8 @@ export default function HeatMap({
         url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
       />
       {flyTarget && <FlyTo target={flyTarget} />}
-      {onBBoxChange && <BboxWatcher onBBoxChange={onBBoxChange} />}
-      {onMapClick && <MapClickHandler onMapClick={onMapClick} />}
+      {onBBoxChangeAction && <BboxWatcher onBBoxChangeAction={onBBoxChangeAction} />}
+      {onMapClickAction && <MapClickHandler onMapClickAction={onMapClickAction} />}
       {indiaView && <FitIndiaBounds active={indiaView} />}
       {zones && initialFit && !indiaView && <FitBounds zones={zones} />}
       {zones && (
@@ -161,18 +231,42 @@ export default function HeatMap({
             const props = feature.properties as Record<string, unknown>;
             const isOverview = Boolean(props.overview);
             const isNational = Boolean(props.national);
-            layer.bindTooltip(
-              isNational
-                ? `<strong>India heat grid</strong><br/>LST: ${(props.mean_lst as number).toFixed(1)}°C · ${props.heat_class}<br/><em>Click for location detail</em>`
-                : isOverview
-                ? `<strong>${props.name}</strong><br/>LST: ${(props.mean_lst as number).toFixed(1)}°C<br/>${props.zone_count} zones · ${props.critical_count} critical`
-                : `<strong>${props.zone_id}</strong><br/>LST: ${(props.mean_lst as number).toFixed(1)}°C<br/>${props.heat_class}`,
-              { sticky: true }
-            );
+            layer.bindTooltip(isNational ? nationalTooltip(props) : isOverview ? overviewTooltip(props) : zoneTooltip(props), {
+              sticky: true,
+            });
+
             if (!isOverview && !isNational) {
-              layer.on("click", () => onZoneClick(props.zone_id as string));
-            } else if (isOverview && onCityOverviewClick && props.city) {
-              layer.on("click", () => onCityOverviewClick(props.city as string));
+              layer.on("mouseover", () => {
+                const lat = Number(props.latitude);
+                const lon = Number(props.longitude);
+                if (!Number.isFinite(lat) || !Number.isFinite(lon)) return;
+
+                const zoneId = String(props.zone_id ?? `${lat.toFixed(5)},${lon.toFixed(5)}`);
+                const cacheKey = `${zoneId}:${lat.toFixed(5)},${lon.toFixed(5)}`;
+                const leafletLayer = layer as typeof layer & {
+                  setTooltipContent?: (content: string) => void;
+                };
+
+                if (reverseCache.current.has(cacheKey)) {
+                  leafletLayer.setTooltipContent?.(zoneTooltip(props, reverseCache.current.get(cacheKey)));
+                  return;
+                }
+
+                leafletLayer.setTooltipContent?.(zoneTooltip(props, null, true));
+                reverseGeocode(lat, lon)
+                  .then((geo) => {
+                    const resolved = placeFromReverse(geo);
+                    reverseCache.current.set(cacheKey, resolved);
+                    leafletLayer.setTooltipContent?.(zoneTooltip(props, resolved));
+                  })
+                  .catch(() => {
+                    reverseCache.current.set(cacheKey, null);
+                    leafletLayer.setTooltipContent?.(zoneTooltip(props));
+                  });
+              });
+              layer.on("click", () => onZoneClickAction(props.zone_id as string));
+            } else if (isOverview && onCityOverviewClickAction && props.city) {
+              layer.on("click", () => onCityOverviewClickAction(props.city as string));
             }
           }}
         />

@@ -2,6 +2,9 @@ const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
 export type ZoneProperties = {
   zone_id: string;
+  place_name?: string;
+  place_state?: string | null;
+  place_distance_m?: number | null;
   mean_lst: number;
   ndvi: number;
   ndbi: number;
@@ -98,6 +101,11 @@ export type ReverseGeocode = {
   postcode?: string | null;
   suburb?: string | null;
   city?: string | null;
+  town?: string | null;
+  village?: string | null;
+  county?: string | null;
+  road?: string | null;
+  place_name?: string | null;
   state?: string | null;
   country?: string | null;
   source?: string;

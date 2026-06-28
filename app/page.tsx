@@ -352,13 +352,13 @@ export default function Dashboard() {
                     selectedZoneId={selectedId}
                     simulatedClasses={simulatedClasses}
                     viewMode={viewMode}
-                    onZoneClick={openZone}
+                    onZoneClickAction={openZone}
                     flyTarget={flyTarget}
                     portfolioZoneIds={portfolioSet}
-                    onBBoxChange={handleBBoxChange}
+                    onBBoxChangeAction={handleBBoxChange}
                     initialFit={initialFit}
-                    onCityOverviewClick={handleCityOverviewClick}
-                    onMapClick={handleMapClick}
+                    onCityOverviewClickAction={handleCityOverviewClick}
+                    onMapClickAction={handleMapClick}
                     mapCenter={activeCity ? [activeCity.lat, activeCity.lon] : INDIA_CENTER}
                     defaultZoom={mapZoom}
                   />

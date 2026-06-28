@@ -5,6 +5,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 _AREAS: list[dict] | None = None
 _CITIES: list[dict] | None = None
+_PLACES: list[dict] | None = None
 
 
 def load_delhi_areas() -> list[dict]:
@@ -39,6 +40,67 @@ def load_india_cities() -> list[dict]:
                 }
         _CITIES = list(merged.values())
     return _CITIES
+
+
+def load_india_places() -> list[dict]:
+    global _PLACES
+    if _PLACES is None:
+        merged: dict[tuple[float, float, str], dict] = {}
+
+        def add_place(row: dict, default_state: str | None = None) -> None:
+            if "lat" not in row or "lon" not in row:
+                return
+            name = row.get("name")
+            if not name:
+                return
+            lat = float(row["lat"])
+            lon = float(row["lon"])
+            state = row.get("state") or default_state or "India"
+            key = (round(lat, 4), round(lon, 4), name.lower())
+            merged[key] = {
+                "name": name,
+                "aliases": row.get("aliases", []),
+                "lat": lat,
+                "lon": lon,
+                "state": state,
+            }
+
+        for area in load_delhi_areas():
+            add_place(area, "Delhi")
+
+        for path_name in ("india_places.json", "india_cities.json", "city_registry.json"):
+            path = ROOT / "data" / path_name
+            if not path.exists():
+                continue
+            with open(path) as f:
+                for row in json.load(f):
+                    add_place(row)
+
+        _PLACES = list(merged.values())
+    return _PLACES
+
+
+def nearest_place_label(lat: float, lon: float, max_distance_m: float = 35_000) -> dict:
+    best = None
+    best_dist = float("inf")
+    for place in load_india_places():
+        d = haversine_m(lat, lon, place["lat"], place["lon"])
+        if d < best_dist:
+            best_dist = d
+            best = place
+
+    if not best or best_dist > max_distance_m:
+        return {
+            "place_name": f"{lat:.5f}, {lon:.5f}",
+            "place_state": None,
+            "place_distance_m": None,
+        }
+
+    return {
+        "place_name": best["name"],
+        "place_state": best.get("state"),
+        "place_distance_m": round(best_dist),
+    }
 
 
 def _match_score(q: str, name: str, aliases: list[str]) -> int:
@@ -108,21 +170,13 @@ def reverse_geocode_local(lat: float, lon: float) -> dict:
     best_kind = "locality"
     best_state = "Delhi"
 
-    for area in load_delhi_areas():
-        d = haversine_m(lat, lon, area["lat"], area["lon"])
+    for place in load_india_places():
+        d = haversine_m(lat, lon, place["lat"], place["lon"])
         if d < best_dist:
             best_dist = d
-            best = area["name"]
-            best_kind = "locality"
-            best_state = "Delhi"
-
-    for city in load_india_cities():
-        d = haversine_m(lat, lon, city["lat"], city["lon"])
-        if d < best_dist:
-            best_dist = d
-            best = city["name"]
-            best_kind = "city"
-            best_state = city.get("state", "India")
+            best = place["name"]
+            best_state = place.get("state", "India")
+            best_kind = "locality" if best_state == "Delhi" else "city"
 
     max_label_distance_m = 3_000 if best_kind == "locality" else 25_000
     if best and best_dist <= max_label_distance_m:
@@ -141,6 +195,11 @@ def reverse_geocode_local(lat: float, lon: float) -> dict:
         "postcode": None,
         "suburb": suburb,
         "city": city_name,
+        "town": None,
+        "village": None,
+        "county": None,
+        "road": None,
+        "place_name": suburb or city_name,
         "state": state,
         "country": "India" if state else None,
         "source": "local",

@@ -21,7 +21,13 @@ load_dotenv(ROOT / ".env")
 
 from api.models import CitySnapshot, HeatZone, SessionLocal
 from api.json_store import get_store
-from api.search import haversine_m, nearest_zone_json, reverse_geocode_local, search_places_local
+from api.search import (
+    haversine_m,
+    nearest_place_label,
+    nearest_zone_json,
+    reverse_geocode_local,
+    search_places_local,
+)
 from ml.recommend import rank_interventions
 from ml.optimize import STRATEGIES, apply_strategy, optimize_city
 from ml.risk import heat_risk_index, population_exposure_proxy, priority_score
@@ -116,6 +122,22 @@ def load_city_registry() -> list[dict]:
     return _CITY_REGISTRY
 
 
+def city_meta(slug: str | None) -> dict | None:
+    if not slug:
+        return None
+    for city in load_city_registry():
+        if city["slug"] == slug:
+            return city
+    return None
+
+
+def slug_from_zone_id(zone_id: str) -> str | None:
+    parts = zone_id.split("_")
+    if len(parts) < 3:
+        return None
+    return "_".join(parts[:-2])
+
+
 def in_india_bounds(lat: float, lon: float) -> bool:
     west, south, east, north = INDIA_BOUNDS
     return south <= lat <= north and west <= lon <= east
@@ -151,8 +173,32 @@ def national_grid_features() -> list[dict]:
 
 
 def zone_feature_props(row: dict) -> dict:
+    place = row.get("place_name")
+    fallback_place = row.get("city_name") or row.get("city")
+    place_meta = (
+        {
+            "place_name": place,
+            "place_state": row.get("place_state"),
+            "place_distance_m": row.get("place_distance_m"),
+        }
+        if place
+        else nearest_place_label(float(row["latitude"]), float(row["longitude"]), max_distance_m=5_000)
+    )
+    if (
+        fallback_place
+        and (
+            not place_meta.get("place_name")
+            or place_meta.get("place_distance_m") is None
+        )
+    ):
+        place_meta = {
+            "place_name": fallback_place,
+            "place_state": row.get("state"),
+            "place_distance_m": None,
+        }
     return {
         "zone_id": row["zone_id"],
+        **place_meta,
         "mean_lst": row["mean_lst"],
         "ndvi": row.get("ndvi", 0),
         "ndbi": row.get("ndbi", 0),
@@ -166,6 +212,29 @@ def zone_feature_props(row: dict) -> dict:
         "data_source": row.get("data_source", "measured"),
         "overview": row.get("overview", False),
         "national": row.get("national", False),
+    }
+
+
+def add_place_context(row: dict, city_slug: str | None = None) -> dict:
+    meta = city_meta(city_slug or row.get("city") or slug_from_zone_id(row["zone_id"]))
+    source = {
+        **row,
+        **(
+            {
+                "city": meta["slug"],
+                "city_name": meta["name"],
+                "state": meta.get("state"),
+            }
+            if meta
+            else {}
+        ),
+    }
+    props = zone_feature_props(source)
+    return {
+        **row,
+        "place_name": props.get("place_name"),
+        "place_state": props.get("place_state"),
+        "place_distance_m": props.get("place_distance_m"),
     }
 
 
@@ -403,6 +472,12 @@ def list_zones(city: str | None = None, bbox: str | None = None, limit: int = 50
         for z in rows:
             props = zone_to_feature(z)
             props["recommendation_summary"] = z.recommendation_summary
+            meta = city_meta(z.city)
+            if meta:
+                props["city"] = meta["slug"]
+                props["city_name"] = meta["name"]
+                props["state"] = meta.get("state")
+            props = zone_feature_props(props)
             features.append(
                 {
                     "type": "Feature",
@@ -423,19 +498,20 @@ def list_zones(city: str | None = None, bbox: str | None = None, limit: int = 50
                 "type": "Feature",
                 "id": r["zone_id"],
                 "geometry": r["geometry"],
-                "properties": {
-                    "zone_id": r["zone_id"],
-                    "mean_lst": r["mean_lst"],
-                    "ndvi": r["ndvi"],
-                    "ndbi": r["ndbi"],
-                    "builtup_density": r["builtup_density"],
-                    "impervious_fraction": r["impervious_fraction"],
-                    "water_dist_m": r["water_dist_m"],
-                    "latitude": r["latitude"],
-                    "longitude": r["longitude"],
-                    "heat_class": r["heat_class"],
-                    "recommendation_summary": r.get("recommendation_summary", ""),
-                },
+                "properties": zone_feature_props(
+                    {
+                        **r,
+                        **(
+                            {
+                                "city": meta["slug"],
+                                "city_name": meta["name"],
+                                "state": meta.get("state"),
+                            }
+                            if (meta := city_meta(city or slug_from_zone_id(r["zone_id"])))
+                            else {}
+                        ),
+                    }
+                ),
             }
             for r in rows
         ]
@@ -465,7 +541,7 @@ def zone_estimate(lat: float, lon: float):
     if hit:
         dist = haversine_m(lat, lon, hit["latitude"], hit["longitude"])
         if dist <= MEASURED_NEAR_M:
-            detail = enrich_zone_risk(hit)
+            detail = enrich_zone_risk(add_place_context(hit))
             bundle = get_model()
             model = bundle["model"]
             features = bundle["features"]
@@ -475,7 +551,7 @@ def zone_estimate(lat: float, lon: float):
             detail["distance_m"] = round(dist, 1)
             detail["data_source"] = "measured"
             return detail
-    detail = enrich_zone_risk(row)
+    detail = enrich_zone_risk(add_place_context(row))
     bundle = get_model()
     model = bundle["model"]
     features = bundle["features"]
@@ -578,11 +654,26 @@ def reverse_geocode(lat: float, lon: float):
         )
         if isinstance(data, dict) and data.get("display_name"):
             addr = data.get("address", {}) or {}
+            place_name = (
+                addr.get("suburb")
+                or addr.get("neighbourhood")
+                or addr.get("quarter")
+                or addr.get("village")
+                or addr.get("town")
+                or addr.get("city")
+                or addr.get("county")
+                or addr.get("state_district")
+            )
             return {
                 "display_name": data.get("display_name"),
                 "postcode": addr.get("postcode"),
                 "suburb": addr.get("suburb") or addr.get("neighbourhood"),
-                "city": addr.get("city") or addr.get("town") or addr.get("village"),
+                "city": addr.get("city"),
+                "town": addr.get("town"),
+                "village": addr.get("village"),
+                "county": addr.get("county") or addr.get("state_district"),
+                "road": addr.get("road"),
+                "place_name": place_name,
                 "state": addr.get("state"),
                 "country": addr.get("country"),
                 "source": "nominatim",
@@ -798,7 +889,7 @@ def zone_detail(zone_id: str):
         if not z:
             session.close()
             raise HTTPException(404, "Zone not found")
-        detail = zone_to_feature(z)
+        detail = add_place_context(zone_to_feature(z), z.city)
         detail["geometry"] = geometry_geojson(z.geom)
         detail["interventions"] = json.loads(z.interventions_json)
         detail.update(
@@ -824,10 +915,12 @@ def zone_detail(zone_id: str):
     features = bundle["features"]
     zone_vec = {k: row[k] for k in features}
     detail = enrich_zone_risk(
-        {
-            **row,
-            "drivers": row.get("drivers") or driver_attribution(model, features, zone_vec),
-        }
+        add_place_context(
+            {
+                **row,
+                "drivers": row.get("drivers") or driver_attribution(model, features, zone_vec),
+            }
+        )
     )
     return detail
 

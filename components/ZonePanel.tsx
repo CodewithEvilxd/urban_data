@@ -39,18 +39,28 @@ export default function ZonePanel({
   const displayClass = simulatedClass ?? zone?.heat_class;
   const locationDisplayName = location?.display_name?.trim() || null;
   const locationTitle =
+    location?.place_name ??
     location?.suburb ??
+    location?.village ??
+    location?.town ??
     location?.city ??
+    location?.county ??
+    zone?.place_name ??
     locationDisplayName ??
     (zone ? `${zone.latitude.toFixed(5)}, ${zone.longitude.toFixed(5)}` : null);
   const locationDetail =
     locationDisplayName && locationDisplayName !== locationTitle
       ? locationDisplayName
+      : zone?.place_state
+      ? [zone.place_state, "India"].filter(Boolean).join(", ")
       : location
       ? [location.state, location.country].filter(Boolean).join(", ") || null
       : zone
       ? `Coordinates: ${zone.latitude.toFixed(5)}, ${zone.longitude.toFixed(5)}`
       : null;
+  const coordinateDetail = zone
+    ? `${zone.latitude.toFixed(5)}, ${zone.longitude.toFixed(5)}`
+    : null;
 
   return (
     <aside
@@ -83,6 +93,16 @@ export default function ZonePanel({
               <div className="mb-3 rounded-lg border border-slate-800 bg-slate-800/40 p-2 text-xs text-slate-300">
                 <div className="font-medium text-white">{locationTitle}</div>
                 <div className="text-slate-400">{locationDetail}</div>
+                {coordinateDetail && locationDetail !== `Coordinates: ${coordinateDetail}` && (
+                  <div className="mt-1 font-mono text-[10px] text-slate-500">
+                    {coordinateDetail}
+                  </div>
+                )}
+                {location?.source === "local" && (
+                  <div className="mt-1 text-[10px] text-amber-300">
+                    Approximate local place label
+                  </div>
+                )}
                 {location?.postcode && (
                   <div className="mt-1 text-slate-500">PIN {location.postcode}</div>
                 )}
