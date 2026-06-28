@@ -2,16 +2,31 @@ services:
   - type: web
     name: urbancool-api
     runtime: python
+    rootDir: backend
+    plan: free
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn api.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
     envVars:
-      - key: DATABASE_URL
-        fromDatabase:
-          name: urbancool-db
-          property: connectionString
+      - key: DATA_BACKEND
+        value: json
       - key: CORS_ORIGINS
         value: https://your-vercel-app.vercel.app
-
-databases:
-  - name: urbancool-db
-    plan: free
+      - key: GITHUB_REPOSITORY
+        value: CodewithEvilxd/urban_data
+      - key: GIT_BRANCH
+        value: main
+      - key: PUSH_CHANGES
+        value: "true"
+      - key: RETRAIN_MODEL
+        value: "true"
+      - key: SKIP_SEED
+        value: "true"
+      - key: INCLUDE_RASTERS
+        value: "false"
+      - key: AUTOMATION_TIMEOUT_SECONDS
+        value: "7200"
+      - key: AUTOMATION_SECRET
+        sync: false
+      - key: GITHUB_TOKEN
+        sync: false

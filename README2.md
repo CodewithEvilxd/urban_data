@@ -89,3 +89,30 @@ python api/seed_db.py
 - The default data download path is the **Microsoft Planetary Computer** STAC endpoint.
 - `landsatxplore` is only required for the `usgs` method.
 - Use Python 3.12 for the local `.venv` to avoid dependency issues with `landsatxplore` and `shapely`.
+# New Folder Layout
+
+Backend:
+```powershell
+cd backend
+tools\python312\python.exe -m uvicorn api.main:app --reload
+```
+
+Frontend:
+```powershell
+cd frontend
+npm run dev
+```
+
+Render uses root `render.yaml` with `rootDir: backend`.
+
+Latest data refresh for all cities:
+```powershell
+cd backend
+tools\python312\python.exe scripts\refresh_latest_data.py
+```
+
+Refresh and push changed data:
+```powershell
+cd backend
+tools\python312\python.exe scripts\refresh_latest_data.py --push
+```

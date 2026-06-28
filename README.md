@@ -161,3 +161,39 @@ data/processed/             # LST GeoTIFF + zone JSON
 | `USGS_USERNAME` | USGS path only | EarthExplorer username |
 | `USGS_PASSWORD` | USGS path only | EarthExplorer password |
 | `CORS_ORIGINS` | Production API | Comma-separated allowed origins |
+# Project Layout
+
+The repo is now split into:
+
+- `backend/` - FastAPI, Python pipeline, ML, Landsat/data processing, automation.
+- `frontend/` - Next.js UI.
+
+Run backend locally:
+
+```powershell
+cd backend
+tools\python312\python.exe -m uvicorn api.main:app --reload
+```
+
+Run frontend locally:
+
+```powershell
+cd frontend
+npm run dev
+```
+
+Render deploy uses the root `render.yaml`, which points Render to `backend/`.
+
+Refresh latest satellite data for all registered cities:
+
+```powershell
+cd backend
+tools\python312\python.exe scripts\refresh_latest_data.py
+```
+
+Commit and push changed processed data after refresh:
+
+```powershell
+cd backend
+tools\python312\python.exe scripts\refresh_latest_data.py --push
+```
